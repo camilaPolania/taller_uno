@@ -1,0 +1,17 @@
+import { departmentsArray, categoriesArray, productsArray } from '../storage/storage';
+
+const apiRoot = 'https://backendapi.turing.com';
+
+function getDepartments(callback: (result: departmentsArray) => void){
+    fetch(`${apiRoot}/departments`)
+    .then((rawInfo) => {
+        return rawInfo.json();
+    })
+    .then((departments) => {
+        callback(departments);
+    });
+}
+
+export default {
+    getDepartments
+}
