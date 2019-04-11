@@ -7,7 +7,7 @@ import { getEnabledCategories } from 'trace_events';
 
 export type departmentsArray = { name: string, department_id: number }[];
 export type categoriesArray = { name: string, category_id: number, department_id: number }[];
-export type productsArray = { name: string,  discounted: string, thumbnail: string, id: number }[];
+export type productsArray = { name: string,  discounted_price: number | null, thumbnail: string, product_id: number, price:number, description: string }[];
 
 class Storage {
 
@@ -41,6 +41,27 @@ class Storage {
             this.loadingDepartments = false;
         }
         api.getDepartments(callback);
+    }
+
+    @action getProducts(){
+        if (this.loadingProducts || this.products) return;
+
+        var productsLocal = localStorage.getItem('products');
+
+        if(productsLocal){
+            this.products = JSON.parse(productsLocal);
+            return;
+        }
+
+        this.loadingProducts = true;
+        var callback = (result: productsArray) => {
+            localStorage.setItem('products', JSON.stringify(toJS(result)));
+
+            this.products = result;
+            this.loadingProducts = false;
+        }
+        api.getProducts(callback);
+    
     }
 
 

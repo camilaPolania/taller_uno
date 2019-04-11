@@ -12,6 +12,18 @@ function getDepartments(callback: (result: departmentsArray) => void){
     });
 }
 
+function getProducts(callback: (result: productsArray) => void){
+    fetch(`${apiRoot}/products`)
+    .then((rawInfo)=> {
+        return rawInfo.json();
+    })
+    .then((products)=>{
+        callback(products.rows);
+    });
+}
+
+
 export default {
-    getDepartments
+    getDepartments,
+    getProducts
 }
